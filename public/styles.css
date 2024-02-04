@@ -1,0 +1,25 @@
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+#container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 95vw;
+}
+.card {
+  width: 46%;
+}
+.card form {
+  background-color: purple;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+input {
+  display: block;
+}

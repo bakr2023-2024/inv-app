@@ -1,0 +1,163 @@
+head 
+    link(rel='stylesheet' href='../styles.css')
+    title=title
+body 
+    h1 Welcome to #{title}
+    span to get: 
+    code /category|item?queries 
+    span for all categories | items or 
+    code /category|item/:id 
+    span for specific category | item
+    #container 
+        .card 
+            form#categoryPost
+                p category post form
+                input(type='text' name='name' required placeholder='*category name')
+                textarea(name='description' placeholder='category description')
+                input(type='submit' value='post')
+            form#categoryPut
+                p category put form
+                input(type='text' name='id' required placeholder='*category id')
+                input(type='text' name='name' placeholder='category name')
+                textarea(name='description' placeholder='category description')
+                input(type='submit' value='put')
+            form#categoryDelete
+                p category delete form
+                input(type='text' name='id' required placeholder='*category id')
+                input(type='submit' value='delete')
+            p#categoryResult 
+        .card 
+            form#itemPost
+                p item post form
+                input(type='text' name='name' required placeholder='*item name')
+                textarea(name='description' placeholder='item description')
+                if(categories)
+                    select(name='category')
+                        for i in categories 
+                            option(value=i)=i
+                else 
+                    p no categories to choose from 
+                input(type='number' name='price' required placeholder='*item price')
+                input(type='number' min=0 name='count' placeholder='number in stock')
+                input(type='text' name='url' placeholder='image url')
+                if(categories)
+                    input(type='submit' value='post')
+                else
+                    input(type='submit' disabled value='post')
+            form#itemPut
+                input(type='text' name='id' required placeholder='*item id')
+                input(type='text' name='name' placeholder='item name')
+                textarea(name='description' placeholder='item description')
+                if(categories)
+                    select(name='category')
+                        for i in categories 
+                            option(value=i)=i
+                else 
+                    p no categories to choose from 
+                input(type='number' name='price' placeholder='item price')
+                input(type='number' min=0 name='count' placeholder='number in stock')
+                input(type='text' name='url' placeholder='image url')
+                if(categories)
+                    input(type='submit' value='put')
+                else
+                    input(type='submit' disabled value='put')
+            form#itemDelete
+                p item delete form
+                input(type='text' name='id' required placeholder='item id')
+                input(type='submit' value='delete')
+            p#itemResult 
+    script(src='https://code.jquery.com/jquery-2.2.1.min.js', integrity='sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=', crossorigin='anonymous')
+    script.
+      $(() => {
+      // Handle POST form submission
+      $("#categoryPost").submit(function (e) {
+      $.ajax({
+      type: "post",
+      url: "/category",
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#categoryResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#categoryResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+      // Handle PUT form submission
+      $("#categoryPut").submit(function (e) {
+      $.ajax({
+      type: "put",
+      url: `/category/${$("#categoryPut input[name='id']").val()}`,
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#categoryResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#categoryResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+      // Handle DELETE form submission
+      $("#categoryDelete").submit(function (e) {
+      $.ajax({
+      type: "delete",
+      url: `/category/${$("#categoryDelete input[name='id']").val()}`,
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#categoryResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#categoryResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+           // Handle POST form submission
+      $("#itemPost").submit(function (e) {
+      $.ajax({
+      type: "post",
+      url: "/item",
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#itemResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#itemResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+      // Handle PUT form submission
+      $("#itemPut").submit(function (e) {
+      $.ajax({
+      type: "put",
+      url: `/item/${$("#itemPut input[name='id']").val()}`,
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#itemResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#itemResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+      // Handle DELETE form submission
+      $("#itemDelete").submit(function (e) {
+      $.ajax({
+      type: "delete",
+      url: `/item/${$("#itemPut input[name='id']").val()}`,
+      data: $(this).serialize(),
+      success: function (response) {
+      $("#itemResult").text(JSON.stringify(response)+'\nplease refresh');
+      },
+      error: function (error) {
+      $("#itemResult").text(JSON.stringify(error));
+      },
+      });
+      e.preventDefault();
+      });
+      });
+ 
